@@ -1,5 +1,4 @@
-﻿using System.Data.Common;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace GameOfLife.Classes;
 
@@ -10,7 +9,7 @@ public class Cell
     public State State { get; set; }
     private State NextState { get; set; }
     
-    private List<Cell> Neighbours => _board.GetNeighbours(Location);
+    private IEnumerable<Cell> Neighbours => _board.GetNeighbours(Location);
 
     public Cell(IBoard board)
     {
@@ -20,17 +19,17 @@ public class Cell
     // Calculate without changing current state
     public void CalculateNext()
     {
-        var aliveNeighbours = Neighbours.Count(cell => cell.State == State.ALIVE);
+        var aliveNeighbours = Neighbours.Count(cell => cell.State == State.Alive);
 
         switch (aliveNeighbours)
         {
             case <2:
             case >3:
-                NextState = State.DEAD;
+                NextState = State.Dead;
                 break;
             case 2:
             case 3:
-                NextState = State.ALIVE;
+                NextState = State.Alive;
                 break;
         }
     }
@@ -41,6 +40,6 @@ public class Cell
 
 public enum State
 {
-    ALIVE,
-    DEAD
+    Alive,
+    Dead
 }
