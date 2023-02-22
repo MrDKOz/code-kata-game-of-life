@@ -1,3 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using GameOfLife.Classes;
 
-Console.WriteLine("Hello, World!");
+var board = new Board();
+
+board.DrawStep();

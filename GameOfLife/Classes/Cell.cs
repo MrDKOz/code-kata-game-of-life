@@ -6,36 +6,42 @@ public class Cell
 {
     private readonly IBoard _board;
     public Point Location { get; set; }
-    public State State { get; set; }
+    public State CurrentState { get; set; }
     private State NextState { get; set; }
     
     private IEnumerable<Cell> Neighbours => _board.GetNeighbours(Location);
 
-    public Cell(IBoard board)
+    public Cell(IBoard board, Point location)
     {
+        Location = location;
         _board = board;
     }
 
     // Calculate without changing current state
     public void CalculateNext()
     {
-        var aliveNeighbours = Neighbours.Count(cell => cell.State == State.Alive);
+        NextState = CurrentState;
 
-        switch (aliveNeighbours)
+        var aliveNeighbours = Neighbours.Count(cell => cell.CurrentState == State.Alive);
+        
+        if (CurrentState == State.Alive)
         {
-            case <2:
-            case >3:
+            if (aliveNeighbours is < 2 or > 3)
+            {
                 NextState = State.Dead;
-                break;
-            case 2:
-            case 3:
+            }
+        }
+        else
+        {
+            if (aliveNeighbours == 3)
+            {
                 NextState = State.Alive;
-                break;
+            }
         }
     }
 
     // Apply the pre-calculated state.
-    public void ApplyNext() => State = NextState;
+    public void ApplyNext() => CurrentState = NextState;
 }
 
 public enum State
