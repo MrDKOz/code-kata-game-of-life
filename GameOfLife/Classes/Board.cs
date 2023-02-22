@@ -30,11 +30,41 @@ public class Board : IBoard
         }
     }
 
-    public List<Cell> GetNeighbours(Point currentLocation) => Cells.Where(cell =>
-            Math.Abs(cell.Location.X - currentLocation.X) <= 1 || Math.Abs(cell.Location.Y - currentLocation.Y) <= 1)
-        .ToList();
+    public List<Cell> GetNeighbours(Point currentLocation)
+    {
+        var neighbours = new List<Cell>();
+        
+        foreach (var cell in Cells)
+        {
+            if (cell.Location != currentLocation)
+            {
+                if (Math.Abs(cell.Location.X - currentLocation.X) <= 1 &&
+                    Math.Abs(cell.Location.Y - currentLocation.Y) <= 1)
+                {
+                    neighbours.Add(cell);
+                }
+            }
+        }
 
-    public void DrawStep()
+        return neighbours;
+    }
+
+    public void Step()
+    {
+        foreach (var cell in Cells)
+        {
+            cell.CalculateNext();
+        }
+
+        foreach (var cell in Cells)
+        {
+            cell.ApplyNext();
+        }
+
+        DrawStep();
+    }
+    
+    private void DrawStep()
     {
         for (var row = 0; row < _rows; row++)
         {
@@ -47,6 +77,4 @@ public class Board : IBoard
             Console.WriteLine();
         }
     }
-    
-    public void CleanUp() => Cells.RemoveAll(cell => cell.CurrentState == State.Dead);
 }

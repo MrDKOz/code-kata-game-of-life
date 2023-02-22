@@ -2,4 +2,11 @@
 
 var board = new Board();
 
-board.DrawStep();
+for (;;)
+{
+    board.Step();
+    
+    Console.WriteLine("Press any key to step...");
+    Console.ReadKey();
+}
+
