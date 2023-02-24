@@ -7,7 +7,7 @@ namespace GameOfLife.Tests;
 public class PopulationTests
 {
     [Test]
-    public void CheckAllNeighboursCanBeFound()
+    public void CheckOverpopulationRule()
     {
         var board = new Board();
         var focusCell = new Cell(board, new Point(3, 3), State.Alive);
