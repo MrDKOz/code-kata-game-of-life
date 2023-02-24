@@ -11,10 +11,11 @@ public class Cell
     
     private IEnumerable<Cell> Neighbours => _board.GetNeighbours(Location);
 
-    public Cell(IBoard board, Point location)
+    public Cell(IBoard board, Point location, State initialState = State.Dead)
     {
         Location = location;
         _board = board;
+        CurrentState = initialState;
     }
 
     // Calculate without changing current state

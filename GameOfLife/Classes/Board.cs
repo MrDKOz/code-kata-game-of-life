@@ -20,10 +20,8 @@ public class Board : IBoard
         {
             for (var col = 0; col < columns; col++)
             {
-                var tempCell = new Cell(this, new Point(col, row))
-                {
-                    CurrentState = random.Next(2) == 1 ? State.Alive : State.Dead
-                };
+                var initialState = random.Next(2) == 1 ? State.Alive : State.Dead;
+                var tempCell = new Cell(this, new Point(col, row), initialState);
 
                 Cells.Add(tempCell);
             }
@@ -33,7 +31,7 @@ public class Board : IBoard
     public List<Cell> GetNeighbours(Point currentLocation)
     {
         var neighbours = new List<Cell>();
-        
+
         foreach (var cell in Cells)
         {
             if (cell.Location != currentLocation)
